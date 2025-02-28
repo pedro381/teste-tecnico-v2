@@ -7,10 +7,37 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.11" />
+    <!-- Entity Framework Core -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.2" />
+
+    <!-- Swagger/OpenAPI -->
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="7.3.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="7.3.1" />
+
+    <!-- Logging com Serilog -->
+    <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="9.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+
+    <!-- Validação com FluentValidation -->
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+
+    <!-- Middleware para ProblemDetails -->
+    <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.5.1" />
+
+    <!-- OpenTelemetry para observabilidade -->
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.11.1" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.11.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.11.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Thunders.TechTest.Application\Thunders.TechTest.Application.csproj" />
+    <ProjectReference Include="..\Thunders.TechTest.Infrastructure\Thunders.TechTest.Infrastructure.csproj" />
     <ProjectReference Include="..\Thunders.TechTest.OutOfBox\Thunders.TechTest.OutOfBox.csproj" />
     <ProjectReference Include="..\Thunders.TechTest.ServiceDefaults\Thunders.TechTest.ServiceDefaults.csproj" />
   </ItemGroup>

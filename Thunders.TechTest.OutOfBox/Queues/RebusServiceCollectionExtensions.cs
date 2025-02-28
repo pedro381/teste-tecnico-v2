@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rebus.Config;
-using System.Reflection;
+using Thunders.TechTest.Application.Messaging;
 
 namespace Thunders.TechTest.OutOfBox.Queues
 {
@@ -12,12 +12,12 @@ namespace Thunders.TechTest.OutOfBox.Queues
             IConfiguration configuration, 
             SubscriptionBuilder? subscriptionBuilder = null)
         {
-            services.AutoRegisterHandlersFromAssembly(Assembly.GetEntryAssembly());
+            services.AutoRegisterHandlersFromAssembly(typeof(TollUsageMessageHandler).Assembly);
 
             services.AddRebus(c => c
                 .Transport(t =>
                 {
-                    t.UseRabbitMq(configuration.GetConnectionString("RabbitMq"), "Thunders.TechTest");
+                    t.UseRabbitMq(configuration.GetConnectionString("RabbitMq"), "Thunders.TechTest.TollUsage");
                 }), 
                 onCreated: async bus =>
                 {

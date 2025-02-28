@@ -11,7 +11,9 @@ namespace Thunders.TechTest.OutOfBox.Database
         {
             services.AddDbContext<TContext>((options) =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("ThundersTechTestDb"));
+                var connectionString = configuration.GetConnectionString("ThundersTechTestDb");
+                
+                options.UseSqlServer(connectionString);
             });
 
             return services;
