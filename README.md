@@ -1,58 +1,90 @@
-﻿# Introdução  
+# Sistema de Relatórios de Pedágio
 
-Bem-vindo ao teste técnico da Thunders! 🚀 
+O **Sistema de Relatórios de Pedágio** é uma solução robusta e escalável desenvolvida para consolidar e processar dados de utilização de praças de pedágio em todo o país. O sistema foi concebido para atender às demandas de grandes volumes de dados, fornecendo relatórios detalhados para suporte à tomada de decisão e administração estratégica.
 
-Estamos empolgados por você estar participando deste desafio e animados para conhecer melhor suas habilidades e seu potencial. Aproveite este momento para demonstrar sua criatividade, conhecimento técnico e capacidade de resolver problemas. 
+## Visão Geral do Projeto
 
-Lembre-se: você não está sozinho nessa jornada! Caso tenha qualquer dúvida ou precise de suporte, sinta-se à vontade para entrar em contato com o nosso time. Estamos aqui para ajudar e garantir que você tenha a melhor experiência possível. 
+A aplicação foi projetada utilizando a plataforma .NET Aspire e conta com integração a diversos serviços essenciais, como RabbitMQ para mensageria e SQL Server (ou outras opções, como Postgres, conforme a necessidade) para persistência de dados. A arquitetura do sistema possibilita a ingestão de milhões de registros diários, mantendo desempenho e confiabilidade, além de suportar OpenTelemetry para monitoramento.
 
-Boa sorte e mãos à obra! Estamos ansiosos para ver o que você pode criar. 
+### Funcionalidades Principais
 
-# Requisitos Funcionais 
+- **Recepção de Dados:**  
+  Uma API robusta permite o recebimento dos dados de utilização das praças, que incluem:
+  - Data e hora de utilização
+  - Identificação da praça
+  - Cidade e estado
+  - Valor pago
+  - Tipo de veículo (Moto, Carro ou Caminhão)
 
-O governo anunciou a abertura de uma licitação para o desenvolvimento e implementação de um sistema informatizado voltado à geração de relatórios detalhados de faturamento das unidades de pedágio do país. Como vencedor dessa licitação, você será responsável por projetar e implementar uma solução eficiente e escalável, 
-capaz de receber dados sobre as utilizações de cada unidade e consolidá-los em um relatório no formato especificado pelo edital. De acordo com informações do UOL, o Brasil conta com mais de 1.800 praças de pedágio distribuídas pelas 27 unidades federativas, o que evidencia a magnitude e a importância do projeto. Este software deverá não apenas atender aos requisitos técnicos, 
-mas também ser capaz de lidar como grande volume de dados gerado diariamente, garantindo a precisão e a agilidade necessárias para a tomada de decisões administrativas e estratégicas. 
+- **Geração de Relatórios:**  
+  O sistema processa os dados recebidos e gera relatórios customizados, tais como:
+  - Valor total faturado por hora em cada cidade
+  - Ranking das praças com maior faturamento por mês (com quantidade configurável)
+  - Quantidade de veículos por tipo em cada praça
 
-Os dados de utilização devem ser unitários e conter minimamente os atributos a seguir: 
+- **Processamento e Persistência:**  
+  Os dados são armazenados e processados para garantir a consistência e a precisão das informações, permitindo a análise de grandes volumes de registros.
 
-- Data e hora de utilização 
-- Praça 
-- Cidade 
-- Estado 
-- Valor pago 
-- Tipo de veículo (Moto, Carro ou Caminhão) 
+- **Integração e Escalabilidade:**  
+  A arquitetura permite a integração com diferentes componentes e serviços, possibilitando a troca ou adição de tecnologias (ex.: migração de RabbitMQ para Kafka) sem prejuízo ao funcionamento do sistema.
 
- 
+## Estrutura do Repositório
 
-Os relatórios a seguir foram solicitados: 
+O repositório está organizado da seguinte forma:
 
-- Valor total por hora por cidade 
-- As praças que mais faturaram por mês (a quantidade a ser processada deve ser configurável) 
-- Quantos tipos de veículos passaram em uma determinada praça 
+```
+Thunders.TechTest/
+    ├── Abstractions
+    ├── ApiService
+    │   ├── Controllers
+    │   └── Validators
+    ├── AppHost
+    ├── Application
+    │   ├── Interfaces
+    │   ├── Messaging
+    │   └── Services
+    ├── Domain
+    │   ├── Entities
+    │   ├── Enums
+    │   └── Models
+    ├── Infrastructure
+    │   ├── Data
+    │   ├── Interfaces
+    │   ├── Migrations
+    │   └── Repositories
+    ├── OutOfBox
+    │   ├── Database
+    │   └── Queues
+    └── Tests
+        ├── ApiService
+        │   └── Controllers
+        ├── Application
+        │   ├── Messaging
+        │   └── Services
+        └── Infrastructure
+            └── Repositories
 
+```
 
-# Requisitos Técnicos 
+## Como Executar o Projeto
 
- 
-A solução deve utilizar o template já estruturado disponível neste repositório, basta criar um fork ou clonar para começar.
+1. **Clone o Repositório:**
+   ```bash
+   git clone https://github.com/pedro381/teste-tecnico-v2.git
+   ```
+2. **Configure a Solução:**
+   - Abra a solução em sua IDE preferida.
+   - Defina o projeto `AppHost` como startup project.
+   - Ajuste as configurações necessárias no arquivo `Configuration/AppSettings.json` (conexões, timeout, etc.).
 
-- Toda implementação deve ser feita dentro do projeto ApiService encontrado no template. Recomenda-se não alterar o código dos outros projetos, porém, caso julgue necessário, alterações podem ser realizadas. 
-- A solução deverá fornecer uma API para que as empresas dos pedágios possam enviar os dados.  
-- O gatilho para processamento dos relatórios deve ser via API, simulando um agendamento. 
-- Persistir os dados de utilização e os resultados dos relatórios. 
-- O Timeout padrão é de 10 segundos e não pode ser alterado. 
-- A solução utiliza .NET Aspire, então serviços externos como RabbitMQ, SQL Server e outros estão disponíveis de antemão. Para iniciar a aplicação basta manter o projeto AppHost como startup project. 
-- Para facilitar o uso do broker a biblioteca Rebus está disponível, bastando apenas a criação de mensagens e seus respectivos “ouvintes”. 
-- A implementação de testes para demonstrar o potencial da solução garantirá pontos extras. 
-- A solução fornece suporte para OpenTelemetry 
-- Considerar que milhões de registros serão ingeridos pela aplicação. 
-- Os componentes existentes podem ser alterados, por exemplo SQL Server -> Postgres ou RabbitMQ -> Kafka. 
-- Novos componentes podem ser agregados a solução, caso seja necessário.
+3. **Inicie a Aplicação:**
+   - Certifique-se de que os serviços externos (RabbitMQ, SQL Server/Postgres, etc.) estejam configurados e em execução.
+   - Execute o projeto `AppHost` para iniciar a aplicação.
 
- 
+4. **Executando Testes:**
+   - Utilize o framework de testes incluído para validar as funcionalidades do sistema.  
+   - Execute os testes unitários e de integração presentes na pasta `Tests`.
 
-Alguns componentes foram criados e disponibilizados para facilitar a implementação do teste: 
+## Considerações Finais
 
-- Interface ‘IMessageSender’ do projeto OutOfBox: permite o envio de mensagens para o broker. 
-- Features: para habilitar o uso de Mensageria ou Entity Framework através do padrão de configurações do .NET 
+O **Sistema de Relatórios de Pedágio** foi desenvolvido com foco em escalabilidade, desempenho e facilidade de manutenção. A arquitetura modular e a utilização de componentes modernos permitem que o sistema evolua conforme as necessidades do mercado e a integração com novas tecnologias.
